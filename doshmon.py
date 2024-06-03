@@ -61,8 +61,15 @@ class Doshmon:
 
     def set_section_order(self, sections):
         logger.info('Ensuring section order...')
-        section_order_map = [{"id": s['id'], "section_order": idx + 1} for idx, s in enumerate(sections)]
-        return [self.api.reorder_sections(section_order_map)]
+        section_order_list = []
+        idx = 1
+        for section_name in self._get_expected_sections():
+            print(section_name)
+            section_id = next((s['id'] for s in sections if s['name'] == section_name), None)
+            if section_id:
+                section_order_list.append({"id": section_id, "section_order": idx})
+                idx += 1
+        return [self.api.reorder_sections(section_order_list)]
 
     def set_section_titles(self, sections, tasks):
         logger.info('Checking section titles...')
@@ -173,11 +180,11 @@ class Todoist:
         }
 
     @_command
-    def reorder_sections(self, order_map):
+    def reorder_sections(self, order_list):
         return {
             'type': 'section_reorder',
             'uuid': random_uuid(),
-            'args': {'sections': order_map}
+            'args': {'sections': order_list}
         }
 
     @_command
