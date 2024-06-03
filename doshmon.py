@@ -4,6 +4,7 @@ import os
 import re
 import requests
 from datetime import datetime
+from time import sleep
 from uuid import uuid4
 
 
@@ -219,3 +220,4 @@ if __name__ == '__main__':
     todoist = Todoist(api_token)
     doshmon = Doshmon(todoist, project_id)
     doshmon.do_housekeeping()
+    sleep(90)
