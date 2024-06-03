@@ -64,7 +64,6 @@ class Doshmon:
         section_order_list = []
         idx = 1
         for section_name in self._get_expected_sections():
-            print(section_name)
             section_id = next((s['id'] for s in sections if s['name'] == section_name), None)
             if section_id:
                 section_order_list.append({"id": section_id, "section_order": idx})
